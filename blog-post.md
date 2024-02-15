@@ -1,8 +1,8 @@
 ## What is OCI and ORAS
 
-OCI or open container initiative is an initiative that decoupled containers from docker. Similar to how kubernetes is no longer just about managing images, but is now also seen as a generic resource manager, OCI artifacts are no longer limited to container images, but now can hold generic OCI artifacts. An OCI artifact can be any set of files so long as they're made to follow the [ocispec](https://github.com/opencontainers/image-spec)
-
-There are a ton of benefits that come with storing OCI images. The community wanted an easy way to implement OCI for generic artifacts. This birthed a project called [ORAS](https://oras.land/), OCI registry as storage. ORAS makes it simpler to store OCI artifacts in online registries such as GHCR, or ECR. ORAS provides a CLI and library for pushing OCI artifacts to registries.
+OCI or open container initiative is an initiative that decoupled containers from docker. Similar to how kubernetes is no longer just about managing container images, but is now also a generic resource manager, OCI artifacts are no longer limited to being container images, but can now hold any set of files so long as they're made to follow the [ocispec](https://github.com/opencontainers/image-spec).
+  
+There are a ton of benefits that come with using OCI as a storage format. The community wanted an easy way to implement OCI for generic artifacts. To make this easier a project called [ORAS](https://oras.land/), OCI registry as storage, was created. ORAS makes it simpler to store OCI artifacts in online registries such as GHCR, or ECR by providing a CLI and library for pushing OCI artifacts to registries.
 
 ## Why OCI
 You might be thinking, we even use OCI for Zarf? You can just curl up the tarballs and curl them back down. Let's look at the benefits:

@@ -2,7 +2,7 @@
 
 OCI or the "Open Container Initiative" decouples containers from Docker. Similar to how Kubernetes is no longer just about managing container images, but is now also a generic resource manager, OCI artifacts are no longer limited to being container images, but can now hold any set of files so long as they're made to follow the [OCI specification](https://github.com/opencontainers/image-spec).
 
-In order to take advantage of the benefits of this specification, a community project called [ORAS](https://oras.land/) (OCI Registry as Storage) was created. ORAS makes it simpler to store OCI artifacts in online registries such as GHCR or ECR by providing a CLI and library for pushing OCI artifacts to registries.
+In order to take advantage of the benefits of this specification, a community project called [ORAS](https://oras.land/) (OCI Registry as Storage) was created. ORAS makes it simpler to store OCI artifacts in online registries such as GHCR or ECR by providing a CLI and library for pushing artifacts to registries.
 
 ## Why OCI
 
@@ -13,15 +13,15 @@ You might be thinking, why even use OCI for Zarf? You can just cURL up the tarba
 *   Layers! When you download a Zarf package if you already have the image in your Zarf cache we can skip downloading it.
     *   Theoretically, we could do the same for components, but we want to avoid bloating users' systems with huge blob files. However, registries get to take advantage of components as OCI layers which saves storage space for any components that are unchanged between architectures or versions.
 *   Better user experience.
-    *   Users don't need to specify which architecture they are working in, Clients for OCI registries generally will detect the architecture on your computer and automatically download it for you.
-    *   Organization. When users tag images with a version registries know how to order and organize artifacts so users can see how versions change over time.
-*   Built-in signing, if any of the files you mean to download somehow change during the download process, through a man in the middle attack or error, ORAS will automatically detect this and fail the download.
+    *   Users don't need to specify which architecture they are working in, Clients for OCI registries generally will detect the architecture on your computer and automatically download it for you. Regestries group packages with different architectures and version together
+    *   OCI tools have built in cross platform features for registry operations. Users no longer need to maintain a set of cURL scripts, they can simply run `zarf package pull`, or `zarf package publish`.
+*   Built-in signing. This ensures that if any files are altered or corrupted during the download process, whether through a man-in-the-middle attack or an error, ORAS will automatically detect the discrepancy and abort the download
 
 ## What is a Zarf OCI package
 
 Here is a diagram of what an OCI package in Zarf looks like under the hood.
 
-End users will never have to interact with the indexes, manifests, or manifest configs. Zarf, ORAS, and the registry handle the standard OCI files so users can simply run a command like `zarf package pull oci://🦄/init:v0.32.3` <- The 🦄 really works! 
+End users will never have to interact with the indexes, manifests, or manifest configs. Zarf, ORAS, and the registry handle the standard OCI files.
 
 Let's run through an example of what these files do. If we pull this package from an arm64 computer Zarf will check the index for a manifest with the platform arm64. If an arm64 manifest exists it will pull down that manifest. The manifest contains a list of pointers to the blob files that Zarf puts together to create a package
 
